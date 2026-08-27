@@ -22,7 +22,7 @@ h1{font-size:32px;line-height:1.05;letter-spacing:-.8px;margin:2px 0 0}h2{margin
 .clear{position:absolute;right:8px;top:8px;width:46px;height:46px;border:0;border-radius:14px;background:var(--panel2);color:var(--muted);font-size:27px}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.action{min-height:83px;border:0;border-radius:20px;padding:13px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
 .action b{font-size:21px;letter-spacing:.7px}.action small{font-size:13px;font-weight:700;opacity:.72;margin-top:2px}.link{background:var(--green);color:#06140b}.unlink{background:var(--red);color:#1c070a}
-.secondary,.danger,.save{width:100%;min-height:52px;border-radius:16px;font-weight:800}.secondary{margin-top:12px;border:1px solid var(--border);background:var(--panel);color:var(--text)}
+.danger,.save{width:100%;min-height:52px;border-radius:16px;font-weight:800}
 .recent-card{margin-top:18px}.hint{font-size:13px;color:var(--muted);margin-top:4px}.text-btn{min-height:40px;border:0;background:transparent;color:var(--blue);font-weight:750}
 .recent-list{display:flex;flex-wrap:wrap;gap:9px;min-height:42px;align-items:center;margin-top:14px}.recent-chip{min-height:42px;border:1px solid #314961;border-radius:999px;padding:0 15px;background:#152231;color:#deedff;font-weight:800}.empty{color:var(--muted);font-size:14px}
 .danger{margin-top:18px;border:1px solid #64323b;background:transparent;color:#ff8995}.message{display:none;margin-top:14px;padding:13px 14px;border:1px solid var(--border);border-radius:15px;background:var(--panel);font-size:14px;color:var(--muted)}

@@ -1,6 +1,6 @@
 (() => {
   "use strict";
-  const VERSION = "0.2.0";
+  const VERSION = "0.3.0";
   const DEFAULT_SHORTCUT = "AllStar Bridge";
   const KEY_LOCAL = "allstarRemote.localNode";
   const KEY_SHORTCUT = "allstarRemote.shortcut";
@@ -101,7 +101,6 @@
 
   $("linkBtn").addEventListener("click",()=>launch("LINK",true));
   $("unlinkBtn").addEventListener("click",()=>launch("UNLINK",true));
-  $("monitorBtn").addEventListener("click",()=>launch("MONITOR",true));
   $("disconnectAllBtn").addEventListener("click",()=>{
     if(confirm("Disconnect all current AllStar links?")) launch("ALL",false);
   });

@@ -1,15 +1,19 @@
-# AllStar Bridge — iPhone Shortcut setup (v0.2.0)
+# AllStar Bridge — iPhone Shortcut setup (v0.3.0)
 
-The finished Shortcut now needs only **Run Script over SSH**.
+The Shortcut is the local bridge between the GitHub Pages app and the existing ASL3 Raspberry Pi.
 
-**Delete the Quick Look action.** AllStar Remote v0.2.0 uses Apple x-callback-url so Shortcuts returns automatically to the GitHub page after the SSH command finishes.
+**Nothing is installed on the Pi and no ASL3 configuration is changed.**
+
+## Shortcut actions
+
+The finished Shortcut contains only **Run Script over SSH**. Do not add Quick Look, Show Result, Show Alert or Open URL. AllStar Remote uses Apple's x-callback-url mechanism to return to the web page automatically when the Shortcut finishes.
 
 ## Run Script over SSH settings
 
 - Host: `192.168.0.3`
 - Port: `22`
 - User: `g1inu`
-- Authentication: your existing Password setting
+- Authentication: the existing Password setting
 - Input: **Shortcut Input**
 
 ## Script
@@ -47,10 +51,6 @@ case "$action" in
     valid_node "$remotenode" || exit 2
     cmd="rpt cmd $localnode ilink 1 $remotenode"
     ;;
-  MONITOR)
-    valid_node "$remotenode" || exit 2
-    cmd="rpt cmd $localnode ilink 2 $remotenode"
-    ;;
   ALL)
     cmd="rpt cmd $localnode ilink 6 *"
     ;;
@@ -65,9 +65,8 @@ sudo -n /usr/sbin/asterisk -rx "$cmd"
 
 ## Expected behaviour
 
-1. Tap LINK, UNLINK, Monitor Only or Disconnect All in AllStar Remote.
-2. iOS may briefly show Shortcuts while **AllStar Bridge** executes.
-3. When the SSH action completes, Shortcuts automatically returns to the GitHub page.
-4. AllStar Remote shows **AllStar command completed.**
-
-The ASL3 node's voice announcement remains the best confirmation that the link state actually changed.
+1. Tap **LINK**, **UNLINK**, or **Disconnect All Links** in AllStar Remote.
+2. iOS may briefly show the Shortcuts app.
+3. AllStar Bridge sends the command to the Pi over SSH.
+4. Shortcuts returns automatically to the GitHub page.
+5. The node's own voice announcement confirms the link/disconnect operation.
