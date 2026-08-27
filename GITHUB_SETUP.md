@@ -1,6 +1,6 @@
 # Publish AllStar Remote with GitHub Pages
 
-AllStar Remote v0.1.0 is completely static. There is no build step and nothing is installed on the Raspberry Pi.
+AllStar Remote v0.2.0 is completely static. There is no build step and nothing is installed on the Raspberry Pi.
 
 ## Upload to GitHub
 
@@ -38,7 +38,7 @@ When GitHub gives you the Pages address, open it in Safari on the iPhone.
 
 Safari → **Share** → **Add to Home Screen**.
 
-The main screen visibly shows **v0.1.0**, so it is easy to tell which release is running.
+The main screen visibly shows **v0.2.0**, so it is easy to tell which release is running.
 
 ## First use
 

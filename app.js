@@ -1,6 +1,6 @@
 (() => {
   "use strict";
-  const VERSION = "0.1.0";
+  const VERSION = "0.2.0";
   const DEFAULT_SHORTCUT = "AllStar Bridge";
   const KEY_LOCAL = "allstarRemote.localNode";
   const KEY_SHORTCUT = "allstarRemote.shortcut";
@@ -62,10 +62,22 @@
 
     const target=needsRemote ? r : "0";
     const payload=`ASL3|${action}|${local}|${target}`;
-    const url=`shortcuts://run-shortcut?name=${encodeURIComponent(s)}&input=text&text=${encodeURIComponent(payload)}`;
+
+    // Apple's x-callback-url returns to this page when the Shortcut finishes.
+    const base = `${window.location.origin}${window.location.pathname}`;
+    const success = `${base}?bridge=success`;
+    const cancel = `${base}?bridge=cancel`;
+    const error = `${base}?bridge=error`;
+
+    const url =
+      `shortcuts://x-callback-url/run-shortcut?name=${encodeURIComponent(s)}` +
+      `&input=text&text=${encodeURIComponent(payload)}` +
+      `&x-success=${encodeURIComponent(success)}` +
+      `&x-cancel=${encodeURIComponent(cancel)}` +
+      `&x-error=${encodeURIComponent(error)}`;
 
     if(needsRemote) addRecent(r);
-    msg(`Opening “${s}”…`,"good");
+    msg(`Sending ${action.toLowerCase()} command…`,"good");
     window.location.href=url;
   }
 
@@ -94,7 +106,26 @@
     if(confirm("Disconnect all current AllStar links?")) launch("ALL",false);
   });
 
-  refreshLocal(); renderRecent();
+  function handleCallback(){
+    const params = new URLSearchParams(window.location.search);
+    const bridge = params.get("bridge");
+    const errorMessage = params.get("errorMessage");
+
+    if(!bridge) return;
+
+    if(bridge === "success") {
+      msg("AllStar command completed.","good");
+    } else if(bridge === "cancel") {
+      msg("AllStar command was cancelled.","bad");
+    } else if(bridge === "error") {
+      msg(errorMessage ? `Shortcut error: ${errorMessage}` : "The Shortcut reported an error.","bad");
+    }
+
+    // Remove callback parameters so refresh does not repeat old status.
+    history.replaceState({}, "", window.location.pathname);
+  }
+
+  refreshLocal(); renderRecent(); handleCallback();
   if(!localNode()) msg("First use: tap Settings and enter your local AllStar node number.");
   if("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(()=>{});
   console.info(`AllStar Remote v${VERSION}`);
