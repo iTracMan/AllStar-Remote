@@ -1,10 +1,11 @@
 (() => {
   "use strict";
-  const VERSION = "0.3.0";
+  const VERSION = "0.4.0";
   const DEFAULT_SHORTCUT = "AllStar Bridge";
   const KEY_LOCAL = "allstarRemote.localNode";
   const KEY_SHORTCUT = "allstarRemote.shortcut";
   const KEY_RECENT = "allstarRemote.recent";
+  const KEY_FAV = "allstarRemote.favourites";
   const $ = id => document.getElementById(id);
 
   const remote = $("remoteNode");
@@ -44,6 +45,54 @@
     });
   }
 
+  // ---- Favourites ----
+  let favEditing=false;
+  function favs(){
+    try{
+      const a=JSON.parse(localStorage.getItem(KEY_FAV)||"[]");
+      return Array.isArray(a) ? a.filter(f=>f&&validNode(f.node)) : [];
+    }catch{return []}
+  }
+  function saveFavs(a){ localStorage.setItem(KEY_FAV,JSON.stringify(a)); renderFavs(); }
+  function addFav(){
+    const n=digits(remote.value);
+    if(!validNode(n)){ msg("Type the node number in the Remote Node box first, then tap + Add.","bad"); remote.focus(); return; }
+    const a=favs();
+    const existing=a.find(f=>f.node===n);
+    const name=prompt(`Name for node ${n}:`, existing ? existing.name : "");
+    if(name===null) return;
+    const clean=name.trim().slice(0,30) || n;
+    if(existing){ existing.name=clean; } else { a.push({node:n,name:clean}); }
+    saveFavs(a);
+    msg(`Saved ${clean} (${n}) to favourites.`,"good");
+  }
+  function renderFavs(){
+    const box=$("favNodes"); box.replaceChildren();
+    const a=favs();
+    $("editFavBtn").textContent=favEditing ? "Done" : "Edit";
+    $("editFavBtn").style.display=a.length ? "" : "none";
+    $("favHint").textContent=favEditing ? "Tap a favourite to delete it." : "Tap a favourite to load it.";
+    if(!a.length){
+      favEditing=false;
+      const s=document.createElement("span");s.className="empty";s.textContent="None yet. Type a node number above, then tap + Add.";box.appendChild(s);return;
+    }
+    a.forEach(f=>{
+      const b=document.createElement("button");b.type="button";b.className="fav-chip"+(favEditing?" editing":"");
+      const nm=document.createElement("span");nm.className="fname";nm.textContent=f.name;
+      const nu=document.createElement("span");nu.className="fnum";nu.textContent=f.node;
+      b.append(nm,nu);
+      if(favEditing){ const d=document.createElement("span");d.className="del";d.textContent="×";b.appendChild(d); }
+      b.addEventListener("click",()=>{
+        if(favEditing){
+          if(confirm(`Delete ${f.name} (${f.node}) from favourites?`)) saveFavs(favs().filter(x=>x.node!==f.node));
+        }else{
+          remote.value=f.node; clearMsg(); msg(`Loaded ${f.name} (${f.node}). Tap LINK to connect.`,"good");
+        }
+      });
+      box.appendChild(b);
+    });
+  }
+
   function openSettings(){
     $("localNodeInput").value=localNode();
     $("shortcutInput").value=shortcutName();
@@ -61,6 +110,7 @@
     if(needsRemote && !validNode(r)){ msg("Enter a valid remote AllStar node number.","bad"); remote.focus(); return; }
 
     const target=needsRemote ? r : "0";
+    const labels={LINK:"link",UNLINK:"unlink",ALL:"disconnect all",STATUS:"status"};
     const payload=`ASL3|${action}|${local}|${target}`;
 
     // Apple's x-callback-url returns to this page when the Shortcut finishes.
@@ -77,7 +127,7 @@
       `&x-error=${encodeURIComponent(error)}`;
 
     if(needsRemote) addRecent(r);
-    msg(`Sending ${action.toLowerCase()} command…`,"good");
+    msg(`Sending ${labels[action]||action.toLowerCase()} command…`,"good");
     window.location.href=url;
   }
 
@@ -101,6 +151,9 @@
 
   $("linkBtn").addEventListener("click",()=>launch("LINK",true));
   $("unlinkBtn").addEventListener("click",()=>launch("UNLINK",true));
+  $("statusBtn").addEventListener("click",()=>launch("STATUS",false));
+  $("addFavBtn").addEventListener("click",addFav);
+  $("editFavBtn").addEventListener("click",()=>{favEditing=!favEditing;renderFavs()});
   $("disconnectAllBtn").addEventListener("click",()=>{
     if(confirm("Disconnect all current AllStar links?")) launch("ALL",false);
   });
@@ -124,7 +177,7 @@
     history.replaceState({}, "", window.location.pathname);
   }
 
-  refreshLocal(); renderRecent(); handleCallback();
+  refreshLocal(); renderFavs(); renderRecent(); handleCallback();
   if(!localNode()) msg("First use: tap Settings and enter your local AllStar node number.");
   if("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(()=>{});
   console.info(`AllStar Remote v${VERSION}`);

@@ -32,4 +32,12 @@ footer{text-align:center;color:var(--muted);font-size:13px;line-height:1.55;padd
 .hidden{display:none}.sheet{width:min(100%,540px);background:#111318;border:1px solid var(--border);border-radius:24px;padding:10px 18px 18px}.handle{width:42px;height:5px;border-radius:99px;background:#454a54;margin:0 auto 10px}
 .field-label{display:block;font-size:13px;font-weight:750;color:var(--muted);margin:18px 0 7px}.field{min-height:54px;padding-right:16px;font-size:17px}.info{margin-top:16px;padding:13px 14px;border:1px solid var(--border);border-radius:15px;background:var(--panel);color:var(--muted);font-size:13px;line-height:1.45}
 .save{margin-top:16px;border:0;background:var(--blue);color:#07111b}
+ .status{width:100%;min-height:64px;margin-top:12px;border:0;border-radius:20px;padding:12px 13px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;background:var(--blue);color:#07111b}
+.status b{font-size:19px;letter-spacing:.7px}.status small{font-size:13px;font-weight:700;opacity:.72;margin-top:2px}
+.fav-card{margin-top:22px}.head-btns{display:flex;gap:4px}
+.fav-list{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.fav-list .empty{grid-column:1/-1}
+.fav-chip{position:relative;min-height:58px;border:1px solid #3d4f2f;border-radius:16px;padding:8px 12px;background:#18240f;color:#e6f7d6;text-align:left;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.fav-chip .fname{font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fav-chip .fnum{font-size:13px;opacity:.7;margin-top:2px}
+.fav-chip.editing{border-color:#65343d;background:#26121a;color:#ffd5db;padding-right:38px}
+.fav-chip .del{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:20px;font-weight:800;color:#ff8995}
 @media(max-width:360px){h1{font-size:28px}.local-card{align-items:flex-start;flex-direction:column}.actions{grid-template-columns:1fr}.action{min-height:70px}}

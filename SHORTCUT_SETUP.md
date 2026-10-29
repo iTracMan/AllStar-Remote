@@ -1,4 +1,4 @@
-# AllStar Bridge — iPhone Shortcut setup (v0.3.0)
+# AllStar Bridge — iPhone Shortcut setup (v0.4.0)
 
 The Shortcut is the local bridge between the GitHub Pages app and the existing ASL3 Raspberry Pi.
 
@@ -54,6 +54,9 @@ case "$action" in
   ALL)
     cmd="rpt cmd $localnode ilink 6 *"
     ;;
+  STATUS)
+    cmd="rpt cmd $localnode ilink 5"
+    ;;
   *)
     echo "AllStar Remote: unknown action"
     exit 2
@@ -65,8 +68,8 @@ sudo -n /usr/sbin/asterisk -rx "$cmd"
 
 ## Expected behaviour
 
-1. Tap **LINK**, **UNLINK**, or **Disconnect All Links** in AllStar Remote.
+1. Tap **LINK**, **UNLINK**, **NODE STATUS** or **Disconnect All Links** in AllStar Remote.
 2. iOS may briefly show the Shortcuts app.
 3. AllStar Bridge sends the command to the Pi over SSH.
 4. Shortcuts returns automatically to the GitHub page.
-5. The node's own voice announcement confirms the link/disconnect operation.
+5. The node's own voice announcement confirms the link/disconnect operation, or reads out its connected nodes for NODE STATUS (`ilink 5`, System status).

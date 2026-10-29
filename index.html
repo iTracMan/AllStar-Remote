@@ -47,6 +47,24 @@
           <b>UNLINK</b><small>Selected node</small>
         </button>
       </div>
+
+      <button id="statusBtn" class="status" type="button">
+        <b>NODE STATUS</b><small>Announce what's connected</small>
+      </button>
+    </section>
+
+    <section class="card fav-card">
+      <div class="section-head">
+        <div>
+          <div class="label">FAVOURITES</div>
+          <div id="favHint" class="hint">Tap a favourite to load it.</div>
+        </div>
+        <div class="head-btns">
+          <button id="editFavBtn" class="text-btn" type="button">Edit</button>
+          <button id="addFavBtn" class="text-btn" type="button">+ Add</button>
+        </div>
+      </div>
+      <div id="favNodes" class="fav-list"><span class="empty">None yet</span></div>
     </section>
 
     <section class="card recent-card">
@@ -64,7 +82,7 @@
     <div id="message" class="message" role="status" aria-live="polite"></div>
 
     <footer>
-      <div>AllStar Remote <strong>v0.3.0</strong></div>
+      <div>AllStar Remote <strong>v0.4.0</strong></div>
       <div>GitHub Pages → iPhone Shortcut → ASL3</div>
     </footer>
   </main>

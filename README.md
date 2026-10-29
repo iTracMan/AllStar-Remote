@@ -1,4 +1,4 @@
-# AllStar Remote v0.3.0
+# AllStar Remote v0.4.0
 
 An iPhone-style AllStarLink remote hosted on GitHub Pages.
 
@@ -7,6 +7,11 @@ An iPhone-style AllStarLink remote hosted on GitHub Pages.
 `GitHub Pages → Apple Shortcut → existing SSH on ASL3 Pi → Asterisk/app_rpt`
 
 Nothing is installed or changed on the Raspberry Pi.
+
+## v0.4.0
+
+- **Favourites** — save nodes with your own names (+ Add, Edit to delete). Stored on the iPhone only.
+- **NODE STATUS** — node announces what it is connected to (`ilink 5`). Needs the STATUS lines added to the AllStar Bridge Shortcut script (see SHORTCUT_SETUP.md).
 
 ## v0.3.0
 
@@ -35,4 +40,4 @@ No Raspberry Pi image, permissions or ASL3 configuration changes were required.
 
 Upload the complete contents of this folder to the root of the `AllStar-Remote` repository, replacing the previous files.
 
-When GitHub Pages has updated, the footer of the app should show **v0.3.0**.
+When GitHub Pages has updated, the footer of the app should show **v0.4.0**.
