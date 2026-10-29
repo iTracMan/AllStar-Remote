@@ -146,6 +146,7 @@ iOS may flash up the Shortcuts app for a moment while the command runs. That's n
 
 ## Version history
 
+- **v0.4.1**: Slimmer top section (your node number and Settings on one line); "by G1INU" in footer.
 - **v0.4.0**: Favourites with names; NODE STATUS button (`ilink 5`).
 - **v0.3.0**: LINK, UNLINK and Disconnect All; recent nodes; automatic return from Shortcuts.
 

@@ -41,3 +41,6 @@ footer{text-align:center;color:var(--muted);font-size:13px;line-height:1.55;padd
 .fav-chip.editing{border-color:#65343d;background:#26121a;color:#ffd5db;padding-right:38px}
 .fav-chip .del{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:20px;font-weight:800;color:#ff8995}
 @media(max-width:360px){h1{font-size:28px}.local-card{align-items:flex-start;flex-direction:column}.actions{grid-template-columns:1fr}.action{min-height:70px}}
+.top{padding:0 2px 4px}.local-btn{border:0;background:transparent;color:var(--text);padding:0;text-align:left;display:flex;align-items:baseline;gap:10px}
+.top .local-node{font-size:26px;margin-top:0}.top .round{width:40px;height:40px;font-size:19px;border-radius:13px}
+.top + .controls{padding-top:12px}

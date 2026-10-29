@@ -14,21 +14,13 @@
 </head>
 <body>
   <main class="app">
-    <header>
-      <div>
-        <div class="eyebrow">ALLSTARLINK 3</div>
-        <h1>Node Remote</h1>
-      </div>
+    <header class="top">
+      <button id="localNodeBtn" class="local-btn" type="button" aria-label="Local node settings">
+        <span class="label">MY NODE</span>
+        <span id="localNodeDisplay" class="local-node">Not set</span>
+      </button>
       <button id="settingsBtn" class="round" type="button" aria-label="Settings">⚙︎</button>
     </header>
-
-    <section class="card local-card">
-      <div>
-        <div class="label">LOCAL NODE</div>
-        <div id="localNodeDisplay" class="local-node">Not set</div>
-      </div>
-      <div class="bridge"><span></span>iPhone bridge</div>
-    </section>
 
     <section class="controls">
       <label class="label" for="remoteNode">REMOTE NODE</label>
@@ -82,7 +74,7 @@
     <div id="message" class="message" role="status" aria-live="polite"></div>
 
     <footer>
-      <div>AllStar Remote <strong>v0.4.0</strong></div>
+      <div>AllStar Remote <strong>v0.4.1</strong> by G1INU</div>
       <div>GitHub Pages → iPhone Shortcut → ASL3</div>
     </footer>
   </main>

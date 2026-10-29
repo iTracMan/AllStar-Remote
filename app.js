@@ -1,6 +1,6 @@
 (() => {
   "use strict";
-  const VERSION = "0.4.0";
+  const VERSION = "0.4.1";
   const DEFAULT_SHORTCUT = "AllStar Bridge";
   const KEY_LOCAL = "allstarRemote.localNode";
   const KEY_SHORTCUT = "allstarRemote.shortcut";
@@ -132,6 +132,7 @@
   }
 
   $("settingsBtn").addEventListener("click",openSettings);
+  $("localNodeBtn").addEventListener("click",openSettings);
   $("closeSettingsBtn").addEventListener("click",closeSettings);
   backdrop.addEventListener("click",e=>{if(e.target===backdrop)closeSettings()});
 
