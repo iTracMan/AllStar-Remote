@@ -1,6 +1,6 @@
 (() => {
   "use strict";
-  const VERSION = "0.4.1";
+  const VERSION = "0.4.2";
   const DEFAULT_SHORTCUT = "AllStar Bridge";
   const KEY_LOCAL = "allstarRemote.localNode";
   const KEY_SHORTCUT = "allstarRemote.shortcut";
@@ -54,37 +54,65 @@
     }catch{return []}
   }
   function saveFavs(a){ localStorage.setItem(KEY_FAV,JSON.stringify(a)); renderFavs(); }
-  function addFav(){
-    const n=digits(remote.value);
-    if(!validNode(n)){ msg("Type the node number in the Remote Node box first, then tap + Add.","bad"); remote.focus(); return; }
-    const a=favs();
-    const existing=a.find(f=>f.node===n);
-    const name=prompt(`Name for node ${n}:`, existing ? existing.name : "");
-    if(name===null) return;
-    const clean=name.trim().slice(0,30) || n;
-    if(existing){ existing.name=clean; } else { a.push({node:n,name:clean}); }
-    saveFavs(a);
-    msg(`Saved ${clean} (${n}) to favourites.`,"good");
+  const favBackdrop=$("favBackdrop");
+  let favEditingNode=null; // null = adding a new favourite
+  function favError(t){ const e=$("favError"); e.textContent=t||""; e.className="sheet-error"+(t?" show":""); }
+  function openFavSheet(fav){
+    favEditingNode = fav ? fav.node : null;
+    $("favTitle").textContent = fav ? "Edit Favourite" : "Add Favourite";
+    $("deleteFavBtn").classList.toggle("hidden", !fav);
+    if(fav){
+      $("favNodeInput").value=fav.node; $("favNameInput").value=fav.name;
+    }else{
+      const n=digits(remote.value);
+      $("favNodeInput").value = (validNode(n) && !favs().some(f=>f.node===n)) ? n : "";
+      $("favNameInput").value="";
+    }
+    favError("");
+    favBackdrop.classList.remove("hidden");
+  }
+  function closeFavSheet(){ favBackdrop.classList.add("hidden"); }
+  function saveFavFromSheet(){
+    const n=digits($("favNodeInput").value);
+    const name=$("favNameInput").value.trim().slice(0,30) || n;
+    if(!validNode(n)){ favError("Node number must be 3 to 7 digits."); return; }
+    let a=favs();
+    const clash=a.find(f=>f.node===n && f.node!==favEditingNode);
+    if(clash){ favError(`Node ${n} is already saved as "${clash.name}".`); return; }
+    if(favEditingNode){
+      a=a.map(f=>f.node===favEditingNode ? {node:n,name} : f);
+    }else{
+      a.push({node:n,name});
+    }
+    saveFavs(a); closeFavSheet();
+    msg(`Saved ${name} (${n}) to favourites.`,"good");
+  }
+  function deleteFavFromSheet(){
+    const f=favs().find(x=>x.node===favEditingNode);
+    if(!f) return closeFavSheet();
+    if(confirm(`Delete ${f.name} (${f.node}) from favourites?`)){
+      saveFavs(favs().filter(x=>x.node!==f.node)); closeFavSheet();
+    }
   }
   function renderFavs(){
     const box=$("favNodes"); box.replaceChildren();
     const a=favs();
     $("editFavBtn").textContent=favEditing ? "Done" : "Edit";
     $("editFavBtn").style.display=a.length ? "" : "none";
-    $("favHint").textContent=favEditing ? "Tap a favourite to delete it." : "Tap a favourite to load it.";
+    $("favHint").textContent=favEditing ? "Tap a favourite to rename or delete it." : "Tap a favourite to load it.";
     if(!a.length){
       favEditing=false;
-      const s=document.createElement("span");s.className="empty";s.textContent="None yet. Type a node number above, then tap + Add.";box.appendChild(s);return;
+      const s=document.createElement("span");s.className="empty";s.textContent="None yet. Tap + Add to save one.";box.appendChild(s);return;
     }
     a.forEach(f=>{
       const b=document.createElement("button");b.type="button";b.className="fav-chip"+(favEditing?" editing":"");
       const nm=document.createElement("span");nm.className="fname";nm.textContent=f.name;
       const nu=document.createElement("span");nu.className="fnum";nu.textContent=f.node;
       b.append(nm,nu);
-      if(favEditing){ const d=document.createElement("span");d.className="del";d.textContent="×";b.appendChild(d); }
+      if(favEditing){ const d=document.createElement("span");d.className="del";d.textContent="✎";b.appendChild(d); }
       b.addEventListener("click",()=>{
         if(favEditing){
-          if(confirm(`Delete ${f.name} (${f.node}) from favourites?`)) saveFavs(favs().filter(x=>x.node!==f.node));
+          openFavSheet(f);
         }else{
           remote.value=f.node; clearMsg(); msg(`Loaded ${f.name} (${f.node}). Tap LINK to connect.`,"good");
         }
@@ -153,7 +181,12 @@
   $("linkBtn").addEventListener("click",()=>launch("LINK",true));
   $("unlinkBtn").addEventListener("click",()=>launch("UNLINK",true));
   $("statusBtn").addEventListener("click",()=>launch("STATUS",false));
-  $("addFavBtn").addEventListener("click",addFav);
+  $("addFavBtn").addEventListener("click",()=>openFavSheet(null));
+  $("closeFavBtn").addEventListener("click",closeFavSheet);
+  favBackdrop.addEventListener("click",e=>{if(e.target===favBackdrop)closeFavSheet()});
+  $("saveFavBtn").addEventListener("click",saveFavFromSheet);
+  $("deleteFavBtn").addEventListener("click",deleteFavFromSheet);
+  $("favNodeInput").addEventListener("input",e=>{e.target.value=digits(e.target.value);favError("")});
   $("editFavBtn").addEventListener("click",()=>{favEditing=!favEditing;renderFavs()});
   $("disconnectAllBtn").addEventListener("click",()=>{
     if(confirm("Disconnect all current AllStar links?")) launch("ALL",false);

@@ -44,3 +44,6 @@ footer{text-align:center;color:var(--muted);font-size:13px;line-height:1.55;padd
 .top{padding:0 2px 4px}.local-btn{border:0;background:transparent;color:var(--text);padding:0;text-align:left;display:flex;align-items:baseline;gap:10px}
 .top .local-node{font-size:26px;margin-top:0}.top .round{width:40px;height:40px;font-size:19px;border-radius:13px}
 .top + .controls{padding-top:12px}
+.sheet-error{display:none;margin-top:12px;color:#ffadb6;font-size:14px}.sheet-error.show{display:block}
+.delete-fav{width:100%;min-height:48px;margin-top:10px;border-radius:16px;border:1px solid #64323b;background:transparent;color:#ff8995;font-weight:800}
+.delete-fav.hidden{display:none}

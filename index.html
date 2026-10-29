@@ -74,7 +74,7 @@
     <div id="message" class="message" role="status" aria-live="polite"></div>
 
     <footer>
-      <div>AllStar Remote <strong>v0.4.1</strong> by G1INU</div>
+      <div>AllStar Remote <strong>v0.4.2</strong> by G1INU</div>
       <div>GitHub Pages → iPhone Shortcut → ASL3</div>
     </footer>
   </main>
@@ -99,6 +99,28 @@
       </div>
 
       <button id="saveSettingsBtn" class="save" type="button">Save Settings</button>
+    </section>
+  </div>
+
+  <div id="favBackdrop" class="backdrop hidden">
+    <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="favTitle">
+      <div class="handle"></div>
+      <div class="section-head">
+        <h2 id="favTitle">Add Favourite</h2>
+        <button id="closeFavBtn" class="round" type="button" aria-label="Close">×</button>
+      </div>
+
+      <label class="field-label" for="favNodeInput">Node number</label>
+      <input id="favNodeInput" class="field" inputmode="numeric" pattern="[0-9]*"
+             autocomplete="off" placeholder="e.g. 642332">
+
+      <label class="field-label" for="favNameInput">Name</label>
+      <input id="favNameInput" class="field" autocomplete="off" maxlength="30" placeholder="e.g. Wigan Hub">
+
+      <div id="favError" class="sheet-error"></div>
+
+      <button id="saveFavBtn" class="save" type="button">Save Favourite</button>
+      <button id="deleteFavBtn" class="delete-fav hidden" type="button">Delete Favourite</button>
     </section>
   </div>
 

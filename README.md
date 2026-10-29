@@ -127,8 +127,8 @@ The first time you tap a button, iOS will ask permission for the shortcut to run
 - **Link to a node**: type the node number (or tap a favourite) and tap **LINK**.
 - **Unlink**: type or pick the node and tap **UNLINK**.
 - **Check what's connected**: tap **NODE STATUS** and listen to your node.
-- **Save a favourite**: type the node number, tap **+ Add** and give it a name.
-- **Delete a favourite**: tap **Edit**, then tap the favourite to remove.
+- **Save a favourite**: tap **+ Add**, enter the node number and a name, then **Save Favourite**.
+- **Rename or delete a favourite**: tap **Edit**, then tap the favourite.
 
 iOS may flash up the Shortcuts app for a moment while the command runs. That's normal.
 
@@ -146,6 +146,7 @@ iOS may flash up the Shortcuts app for a moment while the command runs. That's n
 
 ## Version history
 
+- **v0.4.2**: + Add now asks for the node number and name; Edit lets you rename or delete.
 - **v0.4.1**: Slimmer top section (your node number and Settings on one line); "by G1INU" in footer.
 - **v0.4.0**: Favourites with names; NODE STATUS button (`ilink 5`).
 - **v0.3.0**: LINK, UNLINK and Disconnect All; recent nodes; automatic return from Shortcuts.
